@@ -28,7 +28,7 @@ public class NewsRepository {
     private final NewsDao newsDao;
     private final AppExecutors appExecutors;
 
-    private MediatorLiveData<Resource<List<NewsEntity>>> result = new MediatorLiveData<>();
+    private final MediatorLiveData<Resource<List<NewsEntity>>> result = new MediatorLiveData<>();
 
     private NewsRepository(@NonNull ApiService apiService, @NonNull NewsDao newsDao, AppExecutors appExecutors) {
         this.apiService = apiService;
@@ -53,23 +53,25 @@ public class NewsRepository {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
                 if (response.isSuccessful()) {
-                    List<ArticlesItem> articles = response.body().getArticles();
+                    if (response.body()!= null) {
+                        List<ArticlesItem> articles = response.body().getArticles();
 
-                    ArrayList<NewsEntity> courseList = new ArrayList<>();
-                    for (ArticlesItem article : articles) {
-                        NewsEntity course = new NewsEntity(
-                                article.getTitle(),
-                                article.getPublishedAt(),
-                                article.getUrlToImage(),
-                                false
-                        );
+                        ArrayList<NewsEntity> courseList = new ArrayList<>();
+                        for (ArticlesItem article : articles) {
+                            NewsEntity course = new NewsEntity(
+                                    article.getTitle(),
+                                    article.getPublishedAt(),
+                                    article.getUrlToImage(),
+                                    false
+                            );
 
-                        courseList.add(course);
+                            courseList.add(course);
+                        }
+                        appExecutors.diskIO().execute(() -> {
+                            newsDao.deleteAll();
+                            newsDao.insertCourses(courseList);
+                        });
                     }
-                    appExecutors.diskIO().execute(() -> {
-                        newsDao.deleteAll();
-                        newsDao.insertCourses(courseList);
-                    });
                 }
             }
 
@@ -80,10 +82,7 @@ public class NewsRepository {
         });
 
         LiveData<List<NewsEntity>> localData = newsDao.getCourses();
-        result.addSource(localData, newData -> {
-                    result.setValue(Resource.success(newData));
-                }
-        );
+        result.addSource(localData, newData -> result.setValue(Resource.success(newData)));
 
         return result;
     }

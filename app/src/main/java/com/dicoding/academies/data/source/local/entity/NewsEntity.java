@@ -10,13 +10,13 @@ public class NewsEntity {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "title")
-    private String title;
+    private final String title;
 
     @ColumnInfo(name = "publishedAt")
-    private String publishedAt;
+    private final String publishedAt;
 
     @ColumnInfo(name = "imagePath")
-    private String imagePath;
+    private final String imagePath;
 
     @ColumnInfo(name = "bookmarked")
     private boolean bookmarked;

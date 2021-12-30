@@ -67,7 +67,7 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.CourseViewH
 
         void bind(NewsEntity course) {
             binding.tvItemTitle.setText(course.getTitle());
-            binding.tvItemDate.setText(course.getPublishedAt());
+            binding.tvItemPublishedDate.setText(course.getPublishedAt());
             itemView.setOnClickListener(v -> {
 
             });
@@ -95,5 +95,6 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.CourseViewH
 
 interface OnItemClickCallback {
     void onSaveClick(NewsEntity data);
+
     void onDeleteClick(NewsEntity data);
 }

@@ -11,24 +11,14 @@ import java.util.List;
 
 
 public class NewsViewModel extends ViewModel {
-    private NewsRepository newsRepository;
+    private final NewsRepository newsRepository;
 
     public NewsViewModel(NewsRepository newsRepository) {
         this.newsRepository = newsRepository;
     }
 
     public LiveData<Resource<List<NewsEntity>>> getHeadlineNews() {
-        LiveData<Resource<List<NewsEntity>>> news = newsRepository.getHeadlineNews();
-//        LiveData<Resource<List<ArticlesItem>>> newNews = Transformations.map(news, data -> {
-//            List<ArticlesItem> newItem = new ArrayList();
-//            for (ArticlesItem item : data.data) {
-//                Boolean saved = academyRepository.isNewsSaved(item.getTitle());
-//                item.setSaved(saved);
-//                newItem.add(item);
-//            }
-//            return newItem;
-//        });
-        return news;
+        return newsRepository.getHeadlineNews();
     }
 
     public LiveData<List<NewsEntity>> getBookmarks() {
