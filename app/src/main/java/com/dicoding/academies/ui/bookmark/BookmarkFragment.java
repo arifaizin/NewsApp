@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,10 +12,8 @@ import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.dicoding.academies.R;
-import com.dicoding.academies.data.source.local.entity.CourseEntity;
+import com.dicoding.academies.data.source.local.entity.NewsEntity;
 import com.dicoding.academies.databinding.FragmentBookmarkBinding;
 import com.dicoding.academies.viewmodel.ViewModelFactory;
 
@@ -63,7 +60,7 @@ public class BookmarkFragment extends Fragment implements BookmarkFragmentCallba
     }
 
     @Override
-    public void onShareClick(CourseEntity course) {
+    public void onShareClick(NewsEntity course) {
         if (getActivity() != null) {
             String mimeType = "text/plain";
             ShareCompat.IntentBuilder

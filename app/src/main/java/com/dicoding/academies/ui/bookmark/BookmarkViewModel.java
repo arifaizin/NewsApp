@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dicoding.academies.data.AcademyRepository;
-import com.dicoding.academies.data.source.local.entity.CourseEntity;
+import com.dicoding.academies.data.source.local.entity.NewsEntity;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class BookmarkViewModel extends ViewModel {
         this.academyRepository = mAcademyRepository;
     }
 
-    public LiveData<List<CourseEntity>> getBookmarks() {
+    public LiveData<List<NewsEntity>> getBookmarks() {
         return academyRepository.getBookmarkedCourses();
     }
 }

@@ -1,37 +1,29 @@
 package com.dicoding.academies.ui.academy;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dicoding.academies.R;
-import com.dicoding.academies.data.source.local.entity.CourseEntity;
-import com.dicoding.academies.data.source.remote.response.ArticlesItem;
+import com.dicoding.academies.data.source.local.entity.NewsEntity;
 import com.dicoding.academies.databinding.ItemsAcademyBinding;
 
-import java.util.ArrayList;
-import java.util.List;
+public class AcademyAdapter extends ListAdapter<NewsEntity, AcademyAdapter.CourseViewHolder> {
 
-public class AcademyAdapter extends RecyclerView.Adapter<AcademyAdapter.CourseViewHolder> {
-
-    private OnItemClickCallback onItemClickCallback;
+    private final OnItemClickCallback onItemClickCallback;
 
     public AcademyAdapter(OnItemClickCallback onItemClickCallback) {
+        super(DIFF_CALLBACK);
         this.onItemClickCallback = onItemClickCallback;
-    }
-
-    private List<CourseEntity> listCourses = new ArrayList<>();
-
-    void setCourses(List<CourseEntity> listCourses) {
-        if (listCourses == null) return;
-        this.listCourses.clear();
-        this.listCourses.addAll(listCourses);
     }
 
     @NonNull
@@ -42,8 +34,8 @@ public class AcademyAdapter extends RecyclerView.Adapter<AcademyAdapter.CourseVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CourseViewHolder holder, int position) {
-        CourseEntity course = listCourses.get(position);
+    public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
+        NewsEntity course = getItem(position);
         holder.bind(course);
 
         ImageView ivBookmark = holder.binding.ivBookmark;
@@ -67,11 +59,6 @@ public class AcademyAdapter extends RecyclerView.Adapter<AcademyAdapter.CourseVi
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return listCourses.size();
-    }
-
     static class CourseViewHolder extends RecyclerView.ViewHolder {
 
         final ItemsAcademyBinding binding;
@@ -82,9 +69,9 @@ public class AcademyAdapter extends RecyclerView.Adapter<AcademyAdapter.CourseVi
             this.binding = binding;
         }
 
-        void bind(CourseEntity course) {
+        void bind(NewsEntity course) {
             binding.tvItemTitle.setText(course.getTitle());
-            binding.tvItemDate.setText(String.format("Deadline %s", course.getDeadline()));
+            binding.tvItemDate.setText(String.format("Deadline %s", course.getPublishedAt()));
             itemView.setOnClickListener(v -> {
 
             });
@@ -92,14 +79,26 @@ public class AcademyAdapter extends RecyclerView.Adapter<AcademyAdapter.CourseVi
                     .load(course.getImagePath())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
                     .into(binding.imgPoster);
-
-
         }
     }
+
+    public static final DiffUtil.ItemCallback<NewsEntity> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<NewsEntity>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull NewsEntity oldUser, @NonNull NewsEntity newUser) {
+                    return oldUser.getTitle().equals(newUser.getTitle());
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull NewsEntity oldUser, @NonNull NewsEntity newUser) {
+                    return oldUser.equals(newUser);
+                }
+            };
 }
 
 interface OnItemClickCallback {
-    void onSaveClick(CourseEntity data);
+    void onSaveClick(NewsEntity data);
 
-    void onDeleteClick(CourseEntity data);
+    void onDeleteClick(NewsEntity data);
 }

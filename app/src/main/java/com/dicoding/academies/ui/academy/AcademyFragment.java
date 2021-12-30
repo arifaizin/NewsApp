@@ -12,8 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.dicoding.academies.data.source.local.entity.CourseEntity;
-import com.dicoding.academies.data.source.remote.response.ArticlesItem;
+import com.dicoding.academies.data.source.local.entity.NewsEntity;
 import com.dicoding.academies.databinding.FragmentAcademyBinding;
 import com.dicoding.academies.viewmodel.ViewModelFactory;
 
@@ -45,17 +44,17 @@ public class AcademyFragment extends Fragment {
 
             AcademyAdapter academyAdapter = new AcademyAdapter(new OnItemClickCallback() {
                 @Override
-                public void onSaveClick(CourseEntity data) {
+                public void onSaveClick(NewsEntity data) {
                     data.setBookmarked(true);
                     viewModel.insertCourse(data);
                 }
 
                 @Override
-                public void onDeleteClick(CourseEntity data) {
+                public void onDeleteClick(NewsEntity data) {
                     viewModel.deleteCourse(data);
                 }
             });
-            viewModel.getHeadlineNews().observe(this, courses -> {
+            viewModel.getHeadlineNews().observe(getViewLifecycleOwner(), courses -> {
                 if (courses != null) {
                     switch (courses.status) {
                         case LOADING:
@@ -63,8 +62,7 @@ public class AcademyFragment extends Fragment {
                             break;
                         case SUCCESS:
                             fragmentAcademyBinding.progressBar.setVisibility(View.GONE);
-                            academyAdapter.setCourses(courses.data);
-                            academyAdapter.notifyDataSetChanged();
+                            academyAdapter.submitList(courses.data);
                             break;
                         case ERROR:
                             fragmentAcademyBinding.progressBar.setVisibility(View.GONE);

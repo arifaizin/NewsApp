@@ -6,10 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.dicoding.academies.data.source.local.entity.CourseEntity;
-import com.dicoding.academies.data.source.local.entity.ModuleEntity;
+import com.dicoding.academies.data.source.local.entity.NewsEntity;
 
-@Database(entities = {CourseEntity.class, ModuleEntity.class},
+@Database(entities = {NewsEntity.class},
         version = 1,
         exportSchema = false)
 public abstract class AcademyDatabase extends RoomDatabase {

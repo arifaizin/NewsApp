@@ -64,6 +64,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:tag="Not Saved"
+            android:contentDescription="@string/save_bookmark"
             android:src="@drawable/ic_bookmark_white"
             app:layout_constraintStart_toStartOf="@id/img_poster"
             app:layout_constraintTop_toTopOf="@+id/img_poster" />

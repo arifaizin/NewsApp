@@ -1,9 +1,9 @@
 package com.dicoding.academies.ui.bookmark;
 
 
-import com.dicoding.academies.data.source.local.entity.CourseEntity;
+import com.dicoding.academies.data.source.local.entity.NewsEntity;
 
 interface BookmarkFragmentCallback {
-    void onShareClick(CourseEntity course);
+    void onShareClick(NewsEntity course);
 }
 

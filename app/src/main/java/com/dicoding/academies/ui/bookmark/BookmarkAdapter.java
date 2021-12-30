@@ -1,6 +1,5 @@
 package com.dicoding.academies.ui.bookmark;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -10,23 +9,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dicoding.academies.R;
-import com.dicoding.academies.data.source.local.entity.CourseEntity;
+import com.dicoding.academies.data.source.local.entity.NewsEntity;
 import com.dicoding.academies.databinding.ItemsBookmarkBinding;
-import com.dicoding.academies.ui.detail.DetailCourseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.CourseViewHolder> {
     private final BookmarkFragmentCallback callback;
-    private ArrayList<CourseEntity> listCourses = new ArrayList<>();
+    private ArrayList<NewsEntity> listCourses = new ArrayList<>();
 
     BookmarkAdapter(BookmarkFragmentCallback callback) {
         this.callback = callback;
     }
 
 
-    public void setCourses(List<CourseEntity> courses) {
+    public void setCourses(List<NewsEntity> courses) {
         if (courses == null) return;
         this.listCourses.clear();
         this.listCourses.addAll(courses);
@@ -41,7 +39,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Course
 
     @Override
     public void onBindViewHolder(@NonNull final CourseViewHolder holder, int position) {
-        CourseEntity course = listCourses.get(position);
+        NewsEntity course = listCourses.get(position);
         holder.bind(course);
     }
 
@@ -59,13 +57,10 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Course
             this.binding = binding;
         }
 
-        void bind(CourseEntity course) {
+        void bind(NewsEntity course) {
             binding.tvItemTitle.setText(course.getTitle());
-            binding.tvItemDate.setText(String.format("Deadline %s", course.getDeadline()));
+            binding.tvItemDate.setText(String.format("Deadline %s", course.getPublishedAt()));
             itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(itemView.getContext(), DetailCourseActivity.class);
-                intent.putExtra(DetailCourseActivity.EXTRA_COURSE, course.getCourseId());
-                itemView.getContext().startActivity(intent);
             });
             binding.imgShare.setOnClickListener(v -> callback.onShareClick(course));
             Glide.with(itemView.getContext())

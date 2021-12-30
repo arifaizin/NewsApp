@@ -6,61 +6,39 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.dicoding.academies.data.source.local.entity.CourseEntity;
-import com.dicoding.academies.data.source.local.entity.CourseWithModule;
-import com.dicoding.academies.data.source.local.entity.ModuleEntity;
+import com.dicoding.academies.data.source.local.entity.NewsEntity;
 
 import java.util.List;
 
 @Dao
 public interface AcademyDao {
 
-    @Query("SELECT * FROM courseentities")
-    LiveData<List<CourseEntity>> getCourses();
+    @Query("SELECT * FROM news")
+    LiveData<List<NewsEntity>> getCourses();
 
-    @Query("SELECT * FROM courseentities where bookmarked = 1")
-    LiveData<List<CourseEntity>> getBookmarkedCourse();
+    @Query("SELECT * FROM news where bookmarked = 1")
+    LiveData<List<NewsEntity>> getBookmarkedCourse();
 
-    @Query("SELECT * FROM courseentities")
-    LiveData<List<CourseEntity>> getSavedNews();
+    @Query("SELECT * FROM news")
+    LiveData<List<NewsEntity>> getSavedNews();
 
-    @Transaction
-    @Query("SELECT * FROM courseentities WHERE courseId = :courseId")
-    LiveData<CourseWithModule> getCourseWithModuleById(String courseId);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCourses(List<CourseEntity> courses);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertCourses(List<NewsEntity> courses);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCourse(CourseEntity course);
+    void insertCourse(NewsEntity course);
 
     @Update
-    void updateCourse(CourseEntity course);
+    void updateCourse(NewsEntity course);
 
     @Delete
-    void deleteCourse(CourseEntity course);
+    void deleteCourse(NewsEntity course);
 
-    @Query("DELETE FROM courseentities WHERE bookmarked = 0")
+    @Query("DELETE FROM news WHERE bookmarked = 0")
     void deleteAll();
 
-    @Query("SELECT EXISTS(SELECT * FROM courseentities WHERE title = :title)")
+    @Query("SELECT EXISTS(SELECT * FROM news WHERE title = :title)")
     Boolean isNewsSaved(String title);
-
-    @Query("SELECT * FROM moduleentities WHERE courseId = :courseId")
-    LiveData<List<ModuleEntity>> getModulesByCourseId(String courseId);
-
-    @Query("SELECT * FROM moduleentities WHERE moduleId = :moduleId")
-    LiveData<ModuleEntity> getModuleById(String moduleId);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertModules(List<ModuleEntity> module);
-
-    @Update
-    void updateModule(ModuleEntity module);
-
-    @Query("UPDATE moduleentities SET content = :content WHERE moduleId = :moduleId")
-    void updateModuleByContent(String content, String moduleId);
 }
