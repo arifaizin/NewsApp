@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dicoding.academies">
+    package="com.dicoding.newsapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.News">
         <activity
-            android:name="com.dicoding.academies.ui.HomeActivity"
+            android:name="com.dicoding.newsapp.ui.HomeActivity"
             android:label="@string/app_name"
             android:exported="true">
             <intent-filter>
