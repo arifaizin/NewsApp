@@ -41,19 +41,15 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.CourseViewH
         ImageView ivBookmark = holder.binding.ivBookmark;
 
         if (course.isBookmarked()) {
-            ivBookmark.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_bookmarked_white));
+            ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.getContext(), R.drawable.ic_bookmarked_white));
         } else {
-            ivBookmark.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_bookmark_white));
+            ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.getContext(), R.drawable.ic_bookmark_white));
         }
 
         ivBookmark.setOnClickListener(view -> {
             if (course.isBookmarked()) {
-                ivBookmark.setTag("Not Saved");
-                ivBookmark.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_bookmark_white));
                 onItemClickCallback.onDeleteClick(course);
             } else {
-                ivBookmark.setTag("Saved");
-                ivBookmark.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_bookmarked_white));
                 onItemClickCallback.onSaveClick(course);
             }
         });
@@ -99,6 +95,5 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.CourseViewH
 
 interface OnItemClickCallback {
     void onSaveClick(NewsEntity data);
-
     void onDeleteClick(NewsEntity data);
 }
