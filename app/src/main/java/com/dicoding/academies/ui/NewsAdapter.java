@@ -1,4 +1,4 @@
-package com.dicoding.academies.ui.academy;
+package com.dicoding.academies.ui;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -15,13 +15,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dicoding.academies.R;
 import com.dicoding.academies.data.source.local.entity.NewsEntity;
-import com.dicoding.academies.databinding.ItemsAcademyBinding;
+import com.dicoding.academies.databinding.ItemNewsBinding;
 
-public class AcademyAdapter extends ListAdapter<NewsEntity, AcademyAdapter.CourseViewHolder> {
+public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.CourseViewHolder> {
 
     private final OnItemClickCallback onItemClickCallback;
 
-    public AcademyAdapter(OnItemClickCallback onItemClickCallback) {
+    public NewsAdapter(OnItemClickCallback onItemClickCallback) {
         super(DIFF_CALLBACK);
         this.onItemClickCallback = onItemClickCallback;
     }
@@ -29,7 +29,7 @@ public class AcademyAdapter extends ListAdapter<NewsEntity, AcademyAdapter.Cours
     @NonNull
     @Override
     public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemsAcademyBinding binding = ItemsAcademyBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemNewsBinding binding = ItemNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new CourseViewHolder(binding);
     }
 
@@ -47,7 +47,7 @@ public class AcademyAdapter extends ListAdapter<NewsEntity, AcademyAdapter.Cours
         }
 
         ivBookmark.setOnClickListener(view -> {
-            if (ivBookmark.getTag().toString().equals("Saved")) {
+            if (course.isBookmarked()) {
                 ivBookmark.setTag("Not Saved");
                 ivBookmark.setImageDrawable(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.ic_bookmark_white));
                 onItemClickCallback.onDeleteClick(course);
@@ -61,9 +61,9 @@ public class AcademyAdapter extends ListAdapter<NewsEntity, AcademyAdapter.Cours
 
     static class CourseViewHolder extends RecyclerView.ViewHolder {
 
-        final ItemsAcademyBinding binding;
+        final ItemNewsBinding binding;
 
-        CourseViewHolder(ItemsAcademyBinding binding) {
+        CourseViewHolder(ItemNewsBinding binding) {
             super(binding.getRoot());
 
             this.binding = binding;
@@ -71,7 +71,7 @@ public class AcademyAdapter extends ListAdapter<NewsEntity, AcademyAdapter.Cours
 
         void bind(NewsEntity course) {
             binding.tvItemTitle.setText(course.getTitle());
-            binding.tvItemDate.setText(String.format("Deadline %s", course.getPublishedAt()));
+            binding.tvItemDate.setText(course.getPublishedAt());
             itemView.setOnClickListener(v -> {
 
             });

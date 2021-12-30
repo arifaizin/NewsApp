@@ -13,16 +13,13 @@ import com.dicoding.academies.data.source.local.entity.NewsEntity;
 import java.util.List;
 
 @Dao
-public interface AcademyDao {
+public interface NewsDao {
 
-    @Query("SELECT * FROM news")
+    @Query("SELECT * FROM news ORDER BY publishedAt")
     LiveData<List<NewsEntity>> getCourses();
 
     @Query("SELECT * FROM news where bookmarked = 1")
     LiveData<List<NewsEntity>> getBookmarkedCourse();
-
-    @Query("SELECT * FROM news")
-    LiveData<List<NewsEntity>> getSavedNews();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertCourses(List<NewsEntity> courses);

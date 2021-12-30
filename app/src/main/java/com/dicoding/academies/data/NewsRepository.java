@@ -6,7 +6,7 @@ import androidx.lifecycle.MediatorLiveData;
 
 import com.dicoding.academies.BuildConfig;
 import com.dicoding.academies.data.source.local.entity.NewsEntity;
-import com.dicoding.academies.data.source.local.room.AcademyDao;
+import com.dicoding.academies.data.source.local.room.NewsDao;
 import com.dicoding.academies.data.source.remote.response.ArticlesItem;
 import com.dicoding.academies.data.source.remote.response.NewsResponse;
 import com.dicoding.academies.data.source.remote.retrofit.ApiService;
@@ -20,26 +20,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AcademyRepository {
+public class NewsRepository {
 
-    private volatile static AcademyRepository INSTANCE = null;
+    private volatile static NewsRepository INSTANCE = null;
 
     private final ApiService apiService;
-    private final AcademyDao newsDao;
+    private final NewsDao newsDao;
     private final AppExecutors appExecutors;
 
     private MediatorLiveData<Resource<List<NewsEntity>>> result = new MediatorLiveData<>();
 
-    private AcademyRepository(@NonNull ApiService apiService, @NonNull AcademyDao newsDao, AppExecutors appExecutors) {
+    private NewsRepository(@NonNull ApiService apiService, @NonNull NewsDao newsDao, AppExecutors appExecutors) {
         this.apiService = apiService;
         this.newsDao = newsDao;
         this.appExecutors = appExecutors;
     }
 
-    public static AcademyRepository getInstance(ApiService apiService, AcademyDao newsDao, AppExecutors appExecutors) {
+    public static NewsRepository getInstance(ApiService apiService, NewsDao newsDao, AppExecutors appExecutors) {
         if (INSTANCE == null) {
-            synchronized (AcademyRepository.class) {
-                INSTANCE = new AcademyRepository(apiService, newsDao, appExecutors);
+            synchronized (NewsRepository.class) {
+                INSTANCE = new NewsRepository(apiService, newsDao, appExecutors);
             }
         }
         return INSTANCE;
@@ -62,7 +62,7 @@ public class AcademyRepository {
                                 article.getPublishedAt(),
                                 article.getUrlToImage(),
                                 false
-                                );
+                        );
 
                         courseList.add(course);
                     }
@@ -92,20 +92,9 @@ public class AcademyRepository {
         return newsDao.getBookmarkedCourse();
     }
 
-    public void insertCourse(NewsEntity course) {
-        appExecutors.diskIO().execute(() -> newsDao.insertCourse(course));
-    }
-
-    public void deleteCourse(NewsEntity course) {
-        appExecutors.diskIO().execute(() -> newsDao.deleteCourse(course));
-    }
-
-    public Boolean isNewsSaved(String title) {
-        return newsDao.isNewsSaved(title);
-    }
-
     public void setCourseBookmark(NewsEntity course, boolean state) {
         appExecutors.diskIO().execute(() -> {
+            course.setBookmarked(state);
             newsDao.updateCourse(course);
         });
     }

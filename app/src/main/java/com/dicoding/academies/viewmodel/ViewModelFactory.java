@@ -6,18 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.dicoding.academies.data.AcademyRepository;
+import com.dicoding.academies.data.NewsRepository;
 import com.dicoding.academies.di.Injection;
-import com.dicoding.academies.ui.academy.AcademyViewModel;
-import com.dicoding.academies.ui.bookmark.BookmarkViewModel;
+import com.dicoding.academies.ui.NewsViewModel;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private static volatile ViewModelFactory INSTANCE;
 
-    private final AcademyRepository mAcademyRepository;
+    private final NewsRepository newsRepository;
 
-    private ViewModelFactory(AcademyRepository academyRepository) {
-        mAcademyRepository = academyRepository;
+    private ViewModelFactory(NewsRepository newsRepository) {
+        this.newsRepository = newsRepository;
     }
 
     public static ViewModelFactory getInstance(Context context) {
@@ -33,10 +32,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(AcademyViewModel.class)) {
-            return (T) new AcademyViewModel(mAcademyRepository);
-        } else if (modelClass.isAssignableFrom(BookmarkViewModel.class)) {
-            return (T) new BookmarkViewModel(mAcademyRepository);
+        if (modelClass.isAssignableFrom(NewsViewModel.class)) {
+            return (T) new NewsViewModel(newsRepository);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());

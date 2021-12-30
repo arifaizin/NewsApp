@@ -19,7 +19,7 @@ public class NewsEntity {
     private String imagePath;
 
     @ColumnInfo(name = "bookmarked")
-    private boolean bookmarked = false;
+    private boolean bookmarked;
 
     public NewsEntity(@NonNull String title, String publishedAt, String imagePath, Boolean bookmarked) {
         this.title = title;
@@ -35,10 +35,6 @@ public class NewsEntity {
 
     public String getPublishedAt() {
         return publishedAt;
-    }
-
-    public void setPublishedAt(String publishedAt) {
-        this.publishedAt = publishedAt;
     }
 
     public String getImagePath() {

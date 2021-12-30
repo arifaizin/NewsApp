@@ -11,16 +11,16 @@ import com.dicoding.academies.data.source.local.entity.NewsEntity;
 @Database(entities = {NewsEntity.class},
         version = 1,
         exportSchema = false)
-public abstract class AcademyDatabase extends RoomDatabase {
-    public abstract AcademyDao academyDao();
+public abstract class NewsDatabase extends RoomDatabase {
+    public abstract NewsDao newsDao();
 
-    private static volatile AcademyDatabase INSTANCE;
+    private static volatile NewsDatabase INSTANCE;
 
-    public static AcademyDatabase getInstance(Context context) {
+    public static NewsDatabase getInstance(Context context) {
         if (INSTANCE == null) {
-            synchronized (AcademyDatabase.class) {
+            synchronized (NewsDatabase.class) {
                 INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                        AcademyDatabase.class, "Academies.db")
+                        NewsDatabase.class, "News.db")
                         .build();
             }
         }
