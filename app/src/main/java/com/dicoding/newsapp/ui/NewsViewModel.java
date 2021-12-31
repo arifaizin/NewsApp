@@ -21,16 +21,16 @@ public class NewsViewModel extends ViewModel {
         return newsRepository.getHeadlineNews();
     }
 
-    public LiveData<List<NewsEntity>> getBookmarks() {
-        return newsRepository.getBookmarkedCourses();
+    public LiveData<List<NewsEntity>> getBookmarkedNews() {
+        return newsRepository.getBookmarkedNews();
     }
 
-    public void insertCourse(NewsEntity course) {
-        newsRepository.setCourseBookmark(course, true);
+    public void saveNews(NewsEntity news) {
+        newsRepository.setNewsBookmark(news, true);
     }
 
-    public void deleteCourse(NewsEntity course) {
-        newsRepository.setCourseBookmark(course, false);
+    public void deleteNews(NewsEntity news) {
+        newsRepository.setNewsBookmark(news, false);
     }
 
 }

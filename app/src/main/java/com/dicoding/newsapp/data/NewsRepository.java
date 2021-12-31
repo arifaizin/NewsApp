@@ -55,21 +55,21 @@ public class NewsRepository {
                     if (response.body() != null) {
                         List<ArticlesItem> articles = response.body().getArticles();
 
-                        ArrayList<NewsEntity> courseList = new ArrayList<>();
+                        ArrayList<NewsEntity> newsList = new ArrayList<>();
                         appExecutors.diskIO().execute(() -> {
                             for (ArticlesItem article : articles) {
                                 Boolean isBookmarked = newsDao.isNewsBookmarked(article.getTitle());
-                                NewsEntity course = new NewsEntity(
+                                NewsEntity news = new NewsEntity(
                                         article.getTitle(),
                                         article.getPublishedAt(),
                                         article.getUrlToImage(),
                                         article.getUrl(),
                                         isBookmarked
                                 );
-                                courseList.add(course);
+                                newsList.add(news);
                             }
                             newsDao.deleteAll();
-                            newsDao.insertCourses(courseList);
+                            newsDao.insertNews(newsList);
                         });
                     }
                 }
@@ -81,7 +81,7 @@ public class NewsRepository {
             }
         });
 
-        LiveData<List<NewsEntity>> localData = newsDao.getCourses();
+        LiveData<List<NewsEntity>> localData = newsDao.getNews();
         if (localData != null) {
             result.addSource(localData, newData -> result.setValue(new Result.Success<>(newData)));
         }
@@ -89,14 +89,14 @@ public class NewsRepository {
         return result;
     }
 
-    public LiveData<List<NewsEntity>> getBookmarkedCourses() {
-        return newsDao.getBookmarkedCourse();
+    public LiveData<List<NewsEntity>> getBookmarkedNews() {
+        return newsDao.getBookmarkedNews();
     }
 
-    public void setCourseBookmark(NewsEntity course, boolean state) {
+    public void setNewsBookmark(NewsEntity news, boolean bookmarkState) {
         appExecutors.diskIO().execute(() -> {
-            course.setBookmarked(state);
-            newsDao.updateCourse(course);
+            news.setBookmarked(bookmarkState);
+            newsDao.updateNews(news);
         });
     }
 

@@ -19,7 +19,7 @@ import com.dicoding.newsapp.R;
 import com.dicoding.newsapp.data.source.local.entity.NewsEntity;
 import com.dicoding.newsapp.databinding.ItemNewsBinding;
 
-public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.CourseViewHolder> {
+public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.MyViewHolder> {
 
     private final OnItemClickCallback onItemClickCallback;
 
@@ -30,53 +30,53 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.CourseViewH
 
     @NonNull
     @Override
-    public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemNewsBinding binding = ItemNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new CourseViewHolder(binding);
+        return new MyViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
-        NewsEntity course = getItem(position);
-        holder.bind(course);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        NewsEntity news = getItem(position);
+        holder.bind(news);
 
         ImageView ivBookmark = holder.binding.ivBookmark;
 
-        if (course.isBookmarked()) {
+        if (news.isBookmarked()) {
             ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.getContext(), R.drawable.ic_bookmarked_white));
         } else {
             ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.getContext(), R.drawable.ic_bookmark_white));
         }
 
         ivBookmark.setOnClickListener(view -> {
-            if (course.isBookmarked()) {
-                onItemClickCallback.onDeleteClick(course);
+            if (news.isBookmarked()) {
+                onItemClickCallback.onDeleteClick(news);
             } else {
-                onItemClickCallback.onSaveClick(course);
+                onItemClickCallback.onSaveClick(news);
             }
         });
     }
 
-    static class CourseViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
 
         final ItemNewsBinding binding;
 
-        CourseViewHolder(ItemNewsBinding binding) {
+        MyViewHolder(ItemNewsBinding binding) {
             super(binding.getRoot());
 
             this.binding = binding;
         }
 
-        void bind(NewsEntity course) {
-            binding.tvItemTitle.setText(course.getTitle());
-            binding.tvItemPublishedDate.setText(course.getPublishedAt());
+        void bind(NewsEntity news) {
+            binding.tvItemTitle.setText(news.getTitle());
+            binding.tvItemPublishedDate.setText(news.getPublishedAt());
             itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(course.getUrl()));
+                intent.setData(Uri.parse(news.getUrl()));
                 itemView.getContext().startActivity(intent);
             });
             Glide.with(itemView.getContext())
-                    .load(course.getUrlToImage())
+                    .load(news.getUrlToImage())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
                     .into(binding.imgPoster);
         }

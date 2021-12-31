@@ -15,16 +15,16 @@ import java.util.List;
 public interface NewsDao {
 
     @Query("SELECT * FROM news ORDER BY publishedAt DESC")
-    LiveData<List<NewsEntity>> getCourses();
+    LiveData<List<NewsEntity>> getNews();
 
     @Query("SELECT * FROM news where bookmarked = 1")
-    LiveData<List<NewsEntity>> getBookmarkedCourse();
+    LiveData<List<NewsEntity>> getBookmarkedNews();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertCourses(List<NewsEntity> courses);
+    void insertNews(List<NewsEntity> news);
 
     @Update
-    void updateCourse(NewsEntity course);
+    void updateNews(NewsEntity news);
 
     @Query("DELETE FROM news WHERE bookmarked = 0")
     void deleteAll();

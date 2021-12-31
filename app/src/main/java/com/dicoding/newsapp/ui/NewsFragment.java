@@ -47,33 +47,34 @@ public class NewsFragment extends Fragment {
         NewsAdapter newsAdapter = new NewsAdapter(new OnItemClickCallback() {
             @Override
             public void onSaveClick(NewsEntity data) {
-                viewModel.insertCourse(data);
+                viewModel.saveNews(data);
             }
 
             @Override
             public void onDeleteClick(NewsEntity data) {
-                viewModel.deleteCourse(data);
+                viewModel.deleteNews(data);
             }
         });
 
         if (tabName.equals(TAB_NEWS)) {
-            viewModel.getHeadlineNews().observe(getViewLifecycleOwner(), courses -> {
-                if (courses != null) {
-                    if (courses instanceof Result.Loading){
+            viewModel.getHeadlineNews().observe(getViewLifecycleOwner(), result -> {
+                if (result != null) {
+                    if (result instanceof Result.Loading){
                         binding.progressBar.setVisibility(View.VISIBLE);
-                    } else if (courses instanceof Result.Success){
+                    } else if (result instanceof Result.Success){
                         binding.progressBar.setVisibility(View.GONE);
-                        newsAdapter.submitList(((Result.Success<List<NewsEntity>>) courses).getData());
-                    } else if (courses instanceof Result.Error){
+                        List<NewsEntity> newsData = ((Result.Success<List<NewsEntity>>) result).getData();
+                        newsAdapter.submitList(newsData);
+                    } else if (result instanceof Result.Error){
                         binding.progressBar.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), "Terjadi kesalahan"+ ((Result.Error<List<NewsEntity>>) courses).getError(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Terjadi kesalahan"+ ((Result.Error<List<NewsEntity>>) result).getError(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         } else if (tabName.equals(TAB_BOOKMARK)){
-            viewModel.getBookmarks().observe(getViewLifecycleOwner(), courses -> {
+            viewModel.getBookmarkedNews().observe(getViewLifecycleOwner(), bookmarkedNews -> {
                 binding.progressBar.setVisibility(View.GONE);
-                newsAdapter.submitList(courses);
+                newsAdapter.submitList(bookmarkedNews);
             });
         }
 
