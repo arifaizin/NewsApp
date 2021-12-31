@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dicoding.newsapp.R;
 import com.dicoding.newsapp.data.source.local.entity.NewsEntity;
 import com.dicoding.newsapp.databinding.ItemNewsBinding;
+import com.dicoding.newsapp.utils.DateFormatter;
 
 public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.MyViewHolder> {
 
@@ -41,7 +42,6 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.MyViewHolde
         holder.bind(news);
 
         ImageView ivBookmark = holder.binding.ivBookmark;
-
         if (news.isBookmarked()) {
             ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.getContext(), R.drawable.ic_bookmarked_white));
         } else {
@@ -63,22 +63,21 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.MyViewHolde
 
         MyViewHolder(ItemNewsBinding binding) {
             super(binding.getRoot());
-
             this.binding = binding;
         }
 
         void bind(NewsEntity news) {
             binding.tvItemTitle.setText(news.getTitle());
-            binding.tvItemPublishedDate.setText(news.getPublishedAt());
+            binding.tvItemPublishedDate.setText(DateFormatter.formatDate(news.getPublishedAt()));
+            Glide.with(itemView.getContext())
+                    .load(news.getUrlToImage())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
+                    .into(binding.imgPoster);
             itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(news.getUrl()));
                 itemView.getContext().startActivity(intent);
             });
-            Glide.with(itemView.getContext())
-                    .load(news.getUrlToImage())
-                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-                    .into(binding.imgPoster);
         }
     }
 
