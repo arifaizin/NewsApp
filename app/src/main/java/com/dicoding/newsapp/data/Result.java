@@ -1,13 +1,11 @@
 package com.dicoding.newsapp.data;
 
 public class Result<T> {
-    // hide the private constructor to limit subclass types (Success, Error)
     private Result() {
     }
 
-    // Success sub-class
-    public final static class Success<T> extends Result {
-        private T data;
+    public final static class Success<T> extends Result<T> {
+        private final T data;
 
         public Success(T data) {
             this.data = data;
@@ -18,16 +16,18 @@ public class Result<T> {
         }
     }
 
-    // Error sub-class
-    public final static class Error extends Result {
-        private Exception error;
+    public final static class Error<T> extends Result<T> {
+        private final String error;
 
-        public Error(Exception error) {
+        public Error(String error) {
             this.error = error;
         }
 
-        public Exception getError() {
+        public String getError() {
             return this.error;
         }
+    }
+
+    public static class Loading<T> extends Result<T>{
     }
 }

@@ -28,16 +28,6 @@ public class ArticlesItem{
 	@SerializedName("content")
 	private String content;
 
-	private Boolean isSaved = false;
-
-	public Boolean getSaved() {
-		return isSaved;
-	}
-
-	public void setSaved(Boolean saved) {
-		isSaved = saved;
-	}
-
 	public String getPublishedAt(){
 		return publishedAt;
 	}

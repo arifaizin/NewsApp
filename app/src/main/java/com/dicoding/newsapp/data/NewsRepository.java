@@ -11,7 +11,6 @@ import com.dicoding.newsapp.data.source.remote.response.ArticlesItem;
 import com.dicoding.newsapp.data.source.remote.response.NewsResponse;
 import com.dicoding.newsapp.data.source.remote.retrofit.ApiService;
 import com.dicoding.newsapp.utils.AppExecutors;
-import com.dicoding.newsapp.vo.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class NewsRepository {
     private final NewsDao newsDao;
     private final AppExecutors appExecutors;
 
-    private final MediatorLiveData<Resource<List<NewsEntity>>> result = new MediatorLiveData<>();
+    private final MediatorLiveData<Result<List<NewsEntity>>> result = new MediatorLiveData<>();
 
     private NewsRepository(@NonNull ApiService apiService, @NonNull NewsDao newsDao, AppExecutors appExecutors) {
         this.apiService = apiService;
@@ -45,29 +44,30 @@ public class NewsRepository {
         return INSTANCE;
     }
 
-    public LiveData<Resource<List<NewsEntity>>> getHeadlineNews() {
-        result.setValue(Resource.loading(null));
+    public LiveData<Result<List<NewsEntity>>> getHeadlineNews() {
+        result.setValue(new Result.Loading<>());
 
         Call<NewsResponse> client = apiService.getNews(BuildConfig.API_KEY);
         client.enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
                 if (response.isSuccessful()) {
-                    if (response.body()!= null) {
+                    if (response.body() != null) {
                         List<ArticlesItem> articles = response.body().getArticles();
 
                         ArrayList<NewsEntity> courseList = new ArrayList<>();
-                        for (ArticlesItem article : articles) {
-                            NewsEntity course = new NewsEntity(
-                                    article.getTitle(),
-                                    article.getPublishedAt(),
-                                    article.getUrlToImage(),
-                                    false
-                            );
-
-                            courseList.add(course);
-                        }
                         appExecutors.diskIO().execute(() -> {
+                            for (ArticlesItem article : articles) {
+                                Boolean isBookmarked = newsDao.isNewsBookmarked(article.getTitle());
+                                NewsEntity course = new NewsEntity(
+                                        article.getTitle(),
+                                        article.getPublishedAt(),
+                                        article.getUrlToImage(),
+                                        article.getUrl(),
+                                        isBookmarked
+                                );
+                                courseList.add(course);
+                            }
                             newsDao.deleteAll();
                             newsDao.insertCourses(courseList);
                         });
@@ -77,12 +77,14 @@ public class NewsRepository {
 
             @Override
             public void onFailure(@NonNull Call<NewsResponse> call, @NonNull Throwable t) {
-                result.setValue(Resource.error(t.getLocalizedMessage(), null));
+                result.setValue(new Result.Error<>(t.getLocalizedMessage()));
             }
         });
 
         LiveData<List<NewsEntity>> localData = newsDao.getCourses();
-        result.addSource(localData, newData -> result.setValue(Resource.success(newData)));
+        if (localData != null) {
+            result.addSource(localData, newData -> result.setValue(new Result.Success<>(newData)));
+        }
 
         return result;
     }

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dicoding.newsapp.data.NewsRepository;
+import com.dicoding.newsapp.data.Result;
 import com.dicoding.newsapp.data.source.local.entity.NewsEntity;
-import com.dicoding.newsapp.vo.Resource;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class NewsViewModel extends ViewModel {
         this.newsRepository = newsRepository;
     }
 
-    public LiveData<Resource<List<NewsEntity>>> getHeadlineNews() {
+    public LiveData<Result<List<NewsEntity>>> getHeadlineNews() {
         return newsRepository.getHeadlineNews();
     }
 

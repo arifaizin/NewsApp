@@ -1,6 +1,8 @@
 package com.dicoding.newsapp.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -69,10 +71,12 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.CourseViewH
             binding.tvItemTitle.setText(course.getTitle());
             binding.tvItemPublishedDate.setText(course.getPublishedAt());
             itemView.setOnClickListener(v -> {
-
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(course.getUrl()));
+                itemView.getContext().startActivity(intent);
             });
             Glide.with(itemView.getContext())
-                    .load(course.getImagePath())
+                    .load(course.getUrlToImage())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
                     .into(binding.imgPoster);
         }

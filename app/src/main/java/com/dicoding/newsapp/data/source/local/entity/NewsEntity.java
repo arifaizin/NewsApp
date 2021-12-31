@@ -15,16 +15,20 @@ public class NewsEntity {
     @ColumnInfo(name = "publishedAt")
     private final String publishedAt;
 
-    @ColumnInfo(name = "imagePath")
-    private final String imagePath;
+    @ColumnInfo(name = "urlToImage")
+    private final String urlToImage;
+
+    @ColumnInfo(name = "url")
+    private final String url;
 
     @ColumnInfo(name = "bookmarked")
     private boolean bookmarked;
 
-    public NewsEntity(@NonNull String title, String publishedAt, String imagePath, Boolean bookmarked) {
+    public NewsEntity(@NonNull String title, String publishedAt, String urlToImage, String url, Boolean bookmarked) {
         this.title = title;
         this.publishedAt = publishedAt;
-        this.imagePath = imagePath;
+        this.urlToImage = urlToImage;
+        this.url = url;
         this.bookmarked = bookmarked;
     }
 
@@ -37,9 +41,14 @@ public class NewsEntity {
         return publishedAt;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getUrlToImage() {
+        return urlToImage;
     }
+
+    public String getUrl() {
+        return url;
+    }
+
 
     public boolean isBookmarked() {
         return bookmarked;

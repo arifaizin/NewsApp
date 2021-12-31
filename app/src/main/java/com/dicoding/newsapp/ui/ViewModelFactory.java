@@ -1,4 +1,4 @@
-package com.dicoding.newsapp.viewmodel;
+package com.dicoding.newsapp.ui;
 
 import android.content.Context;
 
@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.dicoding.newsapp.data.NewsRepository;
 import com.dicoding.newsapp.di.Injection;
-import com.dicoding.newsapp.ui.NewsViewModel;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private static volatile ViewModelFactory INSTANCE;
