@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.dicoding.newsapp.data.Result;
-import com.dicoding.newsapp.data.source.local.entity.NewsEntity;
+import com.dicoding.newsapp.data.local.entity.NewsEntity;
 import com.dicoding.newsapp.databinding.FragmentNewsBinding;
 
 import java.util.List;

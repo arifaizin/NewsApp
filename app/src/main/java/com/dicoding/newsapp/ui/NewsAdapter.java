@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dicoding.newsapp.R;
-import com.dicoding.newsapp.data.source.local.entity.NewsEntity;
+import com.dicoding.newsapp.data.local.entity.NewsEntity;
 import com.dicoding.newsapp.databinding.ItemNewsBinding;
 import com.dicoding.newsapp.utils.DateFormatter;
 

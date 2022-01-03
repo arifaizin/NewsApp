@@ -1,4 +1,4 @@
-package com.dicoding.newsapp.data.source.remote.response;
+package com.dicoding.newsapp.data.remote.response;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;

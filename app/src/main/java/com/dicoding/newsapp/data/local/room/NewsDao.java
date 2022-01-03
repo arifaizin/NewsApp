@@ -1,4 +1,4 @@
-package com.dicoding.newsapp.data.source.local.room;
+package com.dicoding.newsapp.data.local.room;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.dicoding.newsapp.data.source.local.entity.NewsEntity;
+import com.dicoding.newsapp.data.local.entity.NewsEntity;
 
 import java.util.List;
 

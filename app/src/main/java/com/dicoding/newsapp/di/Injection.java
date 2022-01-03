@@ -3,10 +3,10 @@ package com.dicoding.newsapp.di;
 import android.content.Context;
 
 import com.dicoding.newsapp.data.NewsRepository;
-import com.dicoding.newsapp.data.source.local.room.NewsDao;
-import com.dicoding.newsapp.data.source.local.room.NewsDatabase;
-import com.dicoding.newsapp.data.source.remote.retrofit.ApiConfig;
-import com.dicoding.newsapp.data.source.remote.retrofit.ApiService;
+import com.dicoding.newsapp.data.local.room.NewsDao;
+import com.dicoding.newsapp.data.local.room.NewsDatabase;
+import com.dicoding.newsapp.data.remote.retrofit.ApiConfig;
+import com.dicoding.newsapp.data.remote.retrofit.ApiService;
 import com.dicoding.newsapp.utils.AppExecutors;
 
 public class Injection {

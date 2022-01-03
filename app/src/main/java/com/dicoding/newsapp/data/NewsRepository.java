@@ -5,11 +5,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.dicoding.newsapp.BuildConfig;
-import com.dicoding.newsapp.data.source.local.entity.NewsEntity;
-import com.dicoding.newsapp.data.source.local.room.NewsDao;
-import com.dicoding.newsapp.data.source.remote.response.ArticlesItem;
-import com.dicoding.newsapp.data.source.remote.response.NewsResponse;
-import com.dicoding.newsapp.data.source.remote.retrofit.ApiService;
+import com.dicoding.newsapp.data.local.entity.NewsEntity;
+import com.dicoding.newsapp.data.local.room.NewsDao;
+import com.dicoding.newsapp.data.remote.response.ArticlesItem;
+import com.dicoding.newsapp.data.remote.response.NewsResponse;
+import com.dicoding.newsapp.data.remote.retrofit.ApiService;
 import com.dicoding.newsapp.utils.AppExecutors;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.dicoding.newsapp.data.source.local.entity;
+package com.dicoding.newsapp.data.local.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

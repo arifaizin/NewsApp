@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.dicoding.newsapp.data.NewsRepository;
 import com.dicoding.newsapp.data.Result;
-import com.dicoding.newsapp.data.source.local.entity.NewsEntity;
+import com.dicoding.newsapp.data.local.entity.NewsEntity;
 
 import java.util.List;
 
