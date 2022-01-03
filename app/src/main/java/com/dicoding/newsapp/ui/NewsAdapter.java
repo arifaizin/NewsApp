@@ -49,11 +49,7 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.MyViewHolde
         }
 
         ivBookmark.setOnClickListener(view -> {
-            if (news.isBookmarked()) {
-                onItemClickCallback.onDeleteClick(news);
-            } else {
-                onItemClickCallback.onSaveClick(news);
-            }
+            onItemClickCallback.onBookmarkClick(news);
         });
     }
 
@@ -97,7 +93,5 @@ public class NewsAdapter extends ListAdapter<NewsEntity, NewsAdapter.MyViewHolde
 }
 
 interface OnItemClickCallback {
-    void onSaveClick(NewsEntity data);
-
-    void onDeleteClick(NewsEntity data);
+    void onBookmarkClick(NewsEntity data);
 }

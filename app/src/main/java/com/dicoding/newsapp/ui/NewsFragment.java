@@ -44,15 +44,11 @@ public class NewsFragment extends Fragment {
         ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
         NewsViewModel viewModel = new ViewModelProvider(this, factory).get(NewsViewModel.class);
 
-        NewsAdapter newsAdapter = new NewsAdapter(new OnItemClickCallback() {
-            @Override
-            public void onSaveClick(NewsEntity data) {
-                viewModel.saveNews(data);
-            }
-
-            @Override
-            public void onDeleteClick(NewsEntity data) {
-                viewModel.deleteNews(data);
+        NewsAdapter newsAdapter = new NewsAdapter(news -> {
+            if (news.isBookmarked()) {
+                viewModel.deleteNews(news);
+            } else {
+                viewModel.saveNews(news);
             }
         });
 
